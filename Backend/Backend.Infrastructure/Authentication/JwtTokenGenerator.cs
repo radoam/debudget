@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Backend.Application.Authentication.Interfaces;
 using Backend.Application.Common.Services;
+using Backend.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,12 +20,12 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _jwtSettings = jwtOptions.Value;
     }
 
-    public string GenerateToken(Guid accountId, string email)
+    public string GenerateToken(AccountEntity account)
     {
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Email, email),
-            new Claim(JwtRegisteredClaimNames.Sub, accountId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, account.Email),
+            new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

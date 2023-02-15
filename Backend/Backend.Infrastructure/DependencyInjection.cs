@@ -1,5 +1,7 @@
+using Backend.Application.Account;
 using Backend.Application.Authentication.Interfaces;
 using Backend.Application.Common.Services;
+using Backend.Infrastructure.Account;
 using Backend.Infrastructure.Authentication;
 using Backend.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +19,8 @@ public static class DependencyInjection
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
+        services.AddScoped<IAccountRepository, AccountRepository>();
 
         return services;
     }
