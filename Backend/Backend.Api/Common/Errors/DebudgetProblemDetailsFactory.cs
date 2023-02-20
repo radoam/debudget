@@ -1,10 +1,12 @@
 using System.Diagnostics;
+using Backend.Api.Common.Http;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace Backend.Api.Errors;
+namespace Backend.Api.Common.Errors;
 
 public class DebudgetProblemDetailsFactory : ProblemDetailsFactory
 {
@@ -88,6 +90,13 @@ public class DebudgetProblemDetailsFactory : ProblemDetailsFactory
         if (traceId != null)
         {
             problemDetails.Extensions["traceId"] = traceId;
+        }
+
+        var errors = httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
+
+        if (errors is not null)
+        {
+            problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
         }
     }
 }

@@ -1,7 +1,9 @@
+using ErrorOr;
+
 namespace Backend.Application.Services.Authentication;
 
 public interface IAuthenticationService
 {
-    AuthenticationResult Register(string email, string password);
-    AuthenticationResult Login(string email, string password);
+    ErrorOr<AuthenticationResult> Register(string email, string password);
+    ErrorOr<AuthenticationResult> Login(string email, string password);
 }

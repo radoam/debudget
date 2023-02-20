@@ -1,4 +1,4 @@
-using Backend.Api.Errors;
+using Backend.Api.Common.Errors;
 using Backend.Application;
 using Backend.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Infrastructure;

@@ -1,6 +1,8 @@
 using Backend.Application.Account;
 using Backend.Application.Authentication.Interfaces;
+using Backend.Domain.Common.Errors;
 using Backend.Domain.Entities;
+using ErrorOr;
 
 namespace Backend.Application.Services.Authentication;
 
@@ -15,11 +17,11 @@ public class AuthenticationService : IAuthenticationService
         _accountRepository = accountRepository;
     }
 
-    public AuthenticationResult Register(string email, string password)
+    public ErrorOr<AuthenticationResult> Register(string email, string password)
     {
         if (_accountRepository.GetAccountByEmail(email) is not null)
         {
-            throw new Exception("Account with given email already exist.");
+            return Errors.Account.DuplicateEmail;
         }
 
         var account = new AccountEntity
@@ -39,16 +41,16 @@ public class AuthenticationService : IAuthenticationService
         );
     }
 
-    public AuthenticationResult Login(string email, string password)
+    public ErrorOr<AuthenticationResult> Login(string email, string password)
     {
         if (_accountRepository.GetAccountByEmail(email) is not AccountEntity account)
         {
-            throw new Exception("Account with given email does not exist.");
+            return Errors.Authentication.InvalidCredentials;
         }
 
         if (account.Password != password)
         {
-            throw new Exception("Invalid password");
+            return Errors.Authentication.InvalidCredentials;
         }
 
         var token = _jwtTokenGenerator.GenerateToken(account);
