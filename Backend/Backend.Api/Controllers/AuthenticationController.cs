@@ -1,7 +1,10 @@
-using Backend.Application.Services.Authentication;
+using Backend.Application.Authentication.Commands.Register;
+using Backend.Application.Authentication.Common;
+using Backend.Application.Authentication.Queries.Login;
 using Backend.Contracts.Authentication;
 using Backend.Domain.Common.Errors;
 using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;
@@ -9,17 +12,17 @@ namespace Backend.Api.Controllers;
 [Route("auth")]
 public class AuthenticationController : ApiController
 {
-    private readonly IAuthenticationService _authenticationService;
+    private readonly IMediator _mediator;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IMediator mediator)
     {
-        _authenticationService = authenticationService;
+        _mediator = mediator;
     }
 
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterCommand command)
     {
-        ErrorOr<AuthenticationResult> authResult = _authenticationService.Register(request.Email, request.Password);
+        ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
         return authResult.Match(
             authResult => Ok(MapAuthResult(authResult)),
@@ -27,9 +30,9 @@ public class AuthenticationController : ApiController
     }
 
     [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
+    public async Task<IActionResult> Login(LoginQuery query)
     {
-        ErrorOr<AuthenticationResult> authResult = _authenticationService.Login(request.Email, request.Password);
+        ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
         if (authResult.IsError && authResult.FirstError == Errors.Authentication.InvalidCredentials)
         {

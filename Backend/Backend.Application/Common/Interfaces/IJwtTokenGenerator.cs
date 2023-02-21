@@ -1,6 +1,6 @@
 using Backend.Domain.Entities;
 
-namespace Backend.Application.Authentication.Interfaces;
+namespace Backend.Application.Common.Interfaces;
 
 public interface IJwtTokenGenerator
 {

@@ -1,4 +1,4 @@
-using Backend.Application.Common.Services;
+using Backend.Application.Common.Interfaces;
 
 namespace Backend.Infrastructure.Services;
 

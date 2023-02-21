@@ -1,8 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Backend.Application.Authentication.Interfaces;
-using Backend.Application.Common.Services;
+using Backend.Application.Common.Interfaces;
 using Backend.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -37,10 +36,10 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         );
 
         var securityToken = new JwtSecurityToken(
-            audience: _jwtSettings.Audience,
             issuer: _jwtSettings.Issuer,
-            expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
+            audience: _jwtSettings.Audience,
             claims: claims,
+            expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
             signingCredentials: signingCredentials
         );
 

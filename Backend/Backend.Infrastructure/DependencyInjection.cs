@@ -1,6 +1,5 @@
 using Backend.Application.Account;
-using Backend.Application.Authentication.Interfaces;
-using Backend.Application.Common.Services;
+using Backend.Application.Common.Interfaces;
 using Backend.Infrastructure.Account;
 using Backend.Infrastructure.Authentication;
 using Backend.Infrastructure.Services;

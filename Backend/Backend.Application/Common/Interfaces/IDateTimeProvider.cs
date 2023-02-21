@@ -1,4 +1,4 @@
-namespace Backend.Application.Common.Services;
+namespace Backend.Application.Common.Interfaces;
 
 public interface IDateTimeProvider
 {
