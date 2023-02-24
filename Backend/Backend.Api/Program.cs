@@ -1,17 +1,13 @@
-using Backend.Api.Common.Errors;
+using Backend.Api;
 using Backend.Application;
 using Backend.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
+        .AddPresentation()
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
-
-    builder.Services.AddControllers();
-
-    builder.Services.AddSingleton<ProblemDetailsFactory, DebudgetProblemDetailsFactory>();
 }
 
 var app = builder.Build();
