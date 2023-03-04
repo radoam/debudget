@@ -2,6 +2,6 @@ POST http://localhost:5140/auth/register
 Content-Type: application/json
 
 {
-    "email": "rado@luczak.com",
-    "password": "rado1234!D"
+    "email": "",
+    "password": ""
 }
